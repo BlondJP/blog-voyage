@@ -27,7 +27,7 @@ class PostController extends Controller
     /**
      * @Route("/post/create", name="creation")
      */
-    public function createAction(Request $request)
+    public function createRandomAction(Request $request)
     {
         // création d'un article
         $randId = rand(0, 1000);
@@ -38,6 +38,6 @@ class PostController extends Controller
         $em->persist($post);
         $em->flush();
 
-        return new Response('création ok');
+        return $this->redirectToRoute('posts');
     }
 }
