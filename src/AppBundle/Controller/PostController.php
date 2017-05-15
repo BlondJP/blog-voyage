@@ -7,19 +7,37 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
+use AppBundle\Entity\Post;
+
 class PostController extends Controller
 {
     /**
-     * @Route("/", name="homepage")
+     * @Route("/posts", name="posts")
      */
     public function indexAction(Request $request)
     {
         // premier action qui retourne une collection de Posts
-        $PostList = $this->getDoctrine()
-        ->getRepository('AppBundle:Post')
-        ->findAll();
-        $view = $this->view($PostList)
+        $posts = $this->getDoctrine()
+          ->getRepository('AppBundle:Post')
+          ->findAll();
 
-        return $this->render();
+        return $this->render('post/index.html.twig', ['posts' => $posts]);
+    }
+
+    /**
+     * @Route("/post/create", name="creation")
+     */
+    public function createAction(Request $request)
+    {
+        // création d'un article
+        $randId = rand(0, 1000);
+
+        $post = new Post();
+        $post->setContent('CONTENT'.$randId)->setTitle('TITLE'.$randId)->setDate(new \Datetime());
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($post);
+        $em->flush();
+
+        return new Response('création ok');
     }
 }

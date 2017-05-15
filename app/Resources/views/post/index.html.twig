@@ -1,0 +1,14 @@
+{% block body %}
+
+<h1>Mes Posts</h1>
+
+
+  {% for post in posts %}
+
+          <h2>{{ post.title|e }}</h2>
+          <p>{{ post.content|e }}</p>
+          <br>
+
+  {% endfor %}
+
+{% endblock %}

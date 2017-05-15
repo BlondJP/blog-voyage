@@ -38,7 +38,7 @@ class Post
     /**
      * @var string
      *
-     * @ORM\Column(name="date", type="string", length=255)
+     * @ORM\Column(name="date", type="datetime")
      */
     private $date;
 
@@ -125,4 +125,3 @@ class Post
         return $this->date;
     }
 }
-
