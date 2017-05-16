@@ -48,6 +48,12 @@ class PostService
         return $post;
     }
 
+    /**
+    *   Retourne les posts de la page
+    *
+    *   @param int $page
+    *   @return Paginator $pag
+    */
     public function getPostsByPage($page)
     {
         $qb = $this->postRepository->createQueryBuilder('post');
