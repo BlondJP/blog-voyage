@@ -17,10 +17,8 @@ class PostController extends Controller
      */
     public function indexAction(Request $request)
     {
-        // premier action qui retourne une collection de Posts
-        $posts = $this->getDoctrine()
-          ->getRepository('AppBundle:Post')
-          ->findAll();
+        $postService = $this->container->get('app.postservice');
+        $posts = $postService->getAll();
 
         return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
@@ -30,14 +28,8 @@ class PostController extends Controller
      */
     public function createRandomAction(Request $request)
     {
-        // création d'un article
-        $randId = rand(0, 1000);
-
-        $post = new Post();
-        $post->setContent('CONTENT'.$randId)->setTitle('TITLE'.$randId)->setDate(new \Datetime());
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($post);
-        $em->flush();
+        $postService = $this->container->get('app.postservice');
+        $postService->createARandomPost();
 
         return $this->redirectToRoute('posts');
     }

@@ -4,6 +4,14 @@ parameters:
     #parameter_name: value
 
 services:
-    #service_name:
-    #    class: AppBundle\Directory\ClassName
-    #    arguments: ['@another_service_name', 'plain_value', '%parameter_name%']
+    #Services
+    app.postservice:
+        class: AppBundle\Service\PostService
+        arguments: [ "@doctrine.orm.entity_manager", "@app.postrepository" ]
+
+    #Repositories
+    app.postrepository:
+        class: Doctrine\ORM\EntityRepository
+        factory: ["@doctrine.orm.entity_manager", getRepository]
+        arguments:
+            - AppBundle\Entity\Post
