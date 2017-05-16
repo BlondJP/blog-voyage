@@ -5,6 +5,7 @@ namespace AppBundle\Service;
 use Doctrine\ORM\EntityManager;
 use AppBundle\Repository\PostRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
+use AppBundle\Entity\Post;
 
 class PostService
 {
@@ -40,7 +41,7 @@ class PostService
 
         $post = new Post();
         $post->setContent('CONTENT'.$randId)->setTitle('TITLE'.$randId)->setDate(new \Datetime());
-        $em = $this->getDoctrine()->getManager();
+        $em = $this->em;
         $em->persist($post);
         $em->flush();
 
