@@ -64,7 +64,7 @@ class PostController extends Controller
 
         $pag = new Paginator($qb);
         foreach ($pag as $post) {
-            echo $post->getTitle();
+            echo $post->getTitle() . '&lt;br /&gt;';
         }die;
         return $pag;
     }
