@@ -6,7 +6,6 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Doctrine\ORM\Tools\Pagination\Paginator;
 
 use AppBundle\Entity\Post;
 
@@ -50,22 +49,9 @@ class PostController extends Controller
      */
     public function getPostsAction(Request $request, $page)
     {
-        /*$postService = $this->container->get('app.postservice');
-        $postService->getPostsByPage($page);
+        $postService = $this->container->get('app.postservice');
+        $posts = $postService->getPostsByPage($page);
 
-        return $this->render();*/
-
-        $postRepository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post');
-
-        $qb = $postRepository->createQueryBuilder('post')
-        ->select('post')
-        ->setFirstResult($page)
-        ->setMaxResults(5);
-
-        $pag = new Paginator($qb);
-        foreach ($pag as $post) {
-            echo $post->getTitle();
-        }die;
-        return $pag;
+        return $this->render('post/index.html.twig', ['posts' => $posts]);
     }
 }

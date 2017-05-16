@@ -4,11 +4,14 @@ namespace AppBundle\Service;
 
 use Doctrine\ORM\EntityManager;
 use AppBundle\Repository\PostRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 class PostService
 {
     private $em;
     private $postRepository;
+
+    const POST_PER_PAGE = 5;
 
     public function __construct(EntityManager $entityManager, PostRepository $postrepository)
     {
@@ -46,13 +49,14 @@ class PostService
 
     public function getPostsByPage($page)
     {
-      $qb = $this->getDoctrine()->getManager()->getRepository()->createQueryBuilder('post');
-$qb
-    ->select('post')
-    ->setFirstResult($page)
-    ->setMaxResults(20);
+        $qb = $this->postRepository->createQueryBuilder('post');
+        $qb
+            ->select('post')
+            ->setFirstResult($page)
+            ->setMaxResults(self::POST_PER_PAGE);
 
-$pag = new Paginator($qb);
-return $pag;
+        $pag = new Paginator($qb);
+
+        return $pag;
     }
 }
