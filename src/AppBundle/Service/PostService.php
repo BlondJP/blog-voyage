@@ -56,10 +56,12 @@ class PostService
     */
     public function getPostsByPage($page)
     {
+        $startingIndex = (($page - 1) * self::POST_PER_PAGE);
+
         $qb = $this->postRepository->createQueryBuilder('post');
         $qb
             ->select('post')
-            ->setFirstResult($page)
+            ->setFirstResult($startingIndex)
             ->setMaxResults(self::POST_PER_PAGE);
 
         $pag = new Paginator($qb);
