@@ -68,6 +68,7 @@ class PostService
         $qb
             ->select('post')
             ->setFirstResult($startingIndex)
+            ->orderBy('post.date', 'DESC')
             ->setMaxResults(self::POST_PER_PAGE);
 
         $pag = new Paginator($qb);
