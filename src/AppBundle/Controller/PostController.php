@@ -35,22 +35,26 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/posts/{pages}", defaults={"pages" = 0}, name="post")
+     * @Route("/posts/{page}", defaults={"page" = 0}, name="post")
      */
-    public function getPosts()
+    public function getPostsAction(Request $request, $page)
     {
+        /*$postService = $this->container->get('app.postservice');
+        $postService->getPostsByPage($page);
 
-      $qb = $this->getDoctrine()->getManager()->createQueryBuilder('post');
-        $qb
-            ->select('post')
-            ->setFirstResult(1)
-            ->setMaxResults(5);
+        return $this->render();*/
+
+        $postRepository = $this->getDoctrine()->getManager()->getRepository('AppBundle:Post');
+
+        $qb = $postRepository->createQueryBuilder('post')
+        ->select('post')
+        ->setFirstResult($page)
+        ->setMaxResults(5);
 
         $pag = new Paginator($qb);
         foreach ($pag as $post) {
-    echo $post->getTitle() . '&lt;br /&gt;';
-}
-die;
+            echo $post->getTitle();
+        }die;
         return $pag;
     }
 }

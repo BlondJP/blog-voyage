@@ -36,4 +36,16 @@ class PostService
 
         return $post;
     }
+
+    public function getPostsByPage($page)
+    {
+      $qb = $this->getDoctrine()->getManager()->getRepository()->createQueryBuilder('post');
+$qb
+    ->select('post')
+    ->setFirstResult($page)
+    ->setMaxResults(20);
+
+$pag = new Paginator($qb);
+return $pag;
+    }
 }
