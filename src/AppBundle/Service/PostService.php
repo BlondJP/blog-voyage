@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityManager;
 use AppBundle\Repository\PostRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use AppBundle\Entity\Post;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 
 class PostService
 {
@@ -30,6 +31,11 @@ class PostService
     public function getPostBy($id)
     {
         $post = $this->postRepository->find($id);
+
+        if (!($post instanceOf Post)) {
+          // 404
+          throw new HttpException(404, "Ce post n\'existe pas");
+        }
 
         return $post;
     }

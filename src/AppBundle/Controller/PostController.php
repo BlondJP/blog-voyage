@@ -31,7 +31,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/{postId}", name="post")
+     * @Route("/post/{postId}", name="postbyid")
      */
     public function showAction($postId)
     {
