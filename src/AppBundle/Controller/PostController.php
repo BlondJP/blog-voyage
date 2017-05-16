@@ -11,6 +11,14 @@ use AppBundle\Entity\Post;
 
 class PostController extends Controller
 {
+  /**
+   * @Route("/", name="home")
+   */
+  public function homeAction(Request $request)
+  {
+      return $this->redirectToRoute('posts');
+  }
+
     /**
      * @Route("/posts", name="posts")
      */
