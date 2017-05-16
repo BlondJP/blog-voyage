@@ -23,6 +23,17 @@ class PostController extends Controller
     }
 
     /**
+     * @Route("/post/{postId}", name="post")
+     */
+    public function showAction($postId)
+    {
+        $postService = $this->container->get('app.postservice');
+        $post = $postService->getPostBy($postId);
+
+        return $this->render('post/show.html.twig', ['post' => $post]);
+    }
+
+    /**
      * @Route("/post/create", name="creation")
      */
     public function createRandomAction(Request $request)

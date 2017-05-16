@@ -23,6 +23,13 @@ class PostService
         return $posts;
     }
 
+    public function getPostBy($id)
+    {
+        $post = $this->postRepository->find($id);
+
+        return $post;
+    }
+
     public function createARandomPost()
     {
         // création d'un article random
