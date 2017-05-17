@@ -105,15 +105,34 @@ class appDevDebugProjectContainerUrlMatcher extends Symfony\Bundle\FrameworkBund
 
         }
 
+        // home
+        if (rtrim($pathinfo, '/') === '') {
+            if (substr($pathinfo, -1) !== '/') {
+                return $this->redirect($pathinfo.'/', 'home');
+            }
+
+            return array (  '_controller' => 'AppBundle\\Controller\\PostController::homeAction',  '_route' => 'home',);
+        }
+
         if (0 === strpos($pathinfo, '/post')) {
             // posts
             if ($pathinfo === '/posts') {
                 return array (  '_controller' => 'AppBundle\\Controller\\PostController::indexAction',  '_route' => 'posts',);
             }
 
+            // postbyid
+            if (preg_match('#^/post/(?P<postId>[^/]++)$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'postbyid')), array (  '_controller' => 'AppBundle\\Controller\\PostController::showAction',));
+            }
+
             // creation
             if ($pathinfo === '/post/create') {
-                return array (  '_controller' => 'AppBundle\\Controller\\PostController::createAction',  '_route' => 'creation',);
+                return array (  '_controller' => 'AppBundle\\Controller\\PostController::createRandomAction',  '_route' => 'creation',);
+            }
+
+            // post
+            if (0 === strpos($pathinfo, '/posts') && preg_match('#^/posts(?:/(?P<page>[^/]++))?$#s', $pathinfo, $matches)) {
+                return $this->mergeDefaults(array_replace($matches, array('_route' => 'post')), array (  'page' => 0,  '_controller' => 'AppBundle\\Controller\\PostController::getPostsAction',));
             }
 
         }
