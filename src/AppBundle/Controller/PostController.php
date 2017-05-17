@@ -53,7 +53,7 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/posts/{page}", defaults={"page" = 0}, name="post")
+     * @Route("/posts/{page}", defaults={"page" = 1}, name="paginatedpost")
      */
     public function getPostsAction(Request $request, $page)
     {
