@@ -60,6 +60,6 @@ class PostController extends Controller
         $postService = $this->container->get('app.postservice');
         $posts = $postService->getPostsByPage($page);
 
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
+        return $this->render('post/index.html.twig', ['posts' => $posts, 'page' => $page, 'precedent' => $page - 1, 'suivant' => $page + 1]);
     }
 }
