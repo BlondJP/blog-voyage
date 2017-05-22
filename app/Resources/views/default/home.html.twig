@@ -1,0 +1,65 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Blog de Voyage</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}" />
+
+		<noscript><link rel="stylesheet" href="{{ asset("assets/css/noscript.css") }}"  /></noscript>
+
+	</head>
+	<body class="is-loading-0 is-loading-1 is-loading-2">
+
+		<!-- Main -->
+			<div id="main">
+
+				<!-- Header -->
+					<header id="header">
+						<h1>Blog Voyage</h1>
+						<p><a href="{{ path('posts') }}">Plus d'articles</a></p>
+					</header>
+
+				<!-- Thumbnail -->
+					<section id="thumbnails">
+						<article>
+							<a class="thumbnail" href="images/photos/01.jpg" data-position="left center"><img src="images/photos/01.jpg" alt="" /></a>
+							<h2>Watashi wa Naivo Desu.</h2>
+							<p>C'est ce fameux jour que j'ai fait la rencontre de <a>[lisez le suite]</a></p>
+						</article>
+						<article>
+							<a class="thumbnail" href="images/photos/02.jpg"><img src="images/photos/02.jpg" alt="" /></a>
+							<h2>Vivamus convallis libero</h2>
+							<p>Sed velit lacus, laoreet at venenatis convallis in lorem tincidunt.</p>
+						</article>
+						<article>
+							<a class="thumbnail" href="images/fulls/03.jpg" data-position="top center"><img src="images/thumbs/03.jpg" alt="" /></a>
+							<h2>Nec accumsan enim felis</h2>
+							<p>Maecenas eleifend tellus ut turpis eleifend, vitae pretium faucibus.</p>
+						</article>
+						<article>
+							<a class="thumbnail" href="images/fulls/04.jpg"><img src="images/thumbs/04.jpg" alt="" /></a>
+							<h2>Donec maximus nisi eget</h2>
+							<p>Tristique in nulla vel congue. Sed sociis natoque parturient nascetur.</p>
+						</article>
+					</section>
+
+				<!-- Footer -->
+					<footer id="footer">
+						<ul class="copyright">
+							<li>&copy; Capsule Corp</li>
+						</ul>
+					</footer>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src="{{ asset("assets/js/jquery.min.js") }}"></script>
+      <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}" />
+
+			<script src="{{ asset("assets/js/skel.min.js") }}"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="{{ asset("assets/js/main.js") }}"></script>
+
+	</body>
+</html>

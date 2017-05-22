@@ -22,7 +22,7 @@ class PostController extends Controller
    */
   public function homeAction(Request $request)
   {
-      return $this->redirectToRoute('posts');
+      return $this->render('default/home.html.twig');
   }
 
     /**
@@ -67,14 +67,9 @@ class PostController extends Controller
             ->add('save', SubmitType::class, array('label' => 'Enregistrer le Post'))
             ->getForm();
 
-        //dump($form->isSubmitted(), $form->isValid()); die;
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-          //dump($form->isSubmitted(), $form->isValid()); die;
-
 
             $post = $form->getData();
             $post->setDate(new \Datetime());
