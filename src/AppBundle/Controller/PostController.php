@@ -6,6 +6,9 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Post;
 
@@ -46,15 +49,42 @@ class PostController extends Controller
         return $this->render('post/show.html.twig', ['post' => $post]);
     }
 
-    /**
-     * @Route("/post/create", name="creation")
-     */
-    public function createRandomAction(Request $request)
-    {
-        $postService = $this->container->get('app.postservice');
-        $postService->createARandomPost();
 
-        return $this->redirectToRoute('posts');
+    /**
+     * @Route("/posts/create", name="creation")
+     */
+    public function createPostAction(Request $request)
+    {
+      // create a task and give it some dummy data for this example
+
+$post = new Post();
+
+$form = $this->createFormBuilder($post)
+  ->add('title', TextType::class)
+  ->add('content', TextType::class)
+  ->add('save', SubmitType::class, array('label' => 'Create Post'))
+  ->getForm();
+
+  $form->handleRequest($request);
+
+      if ($form->isSubmitted() && $form->isValid()) {
+          // $form->getData() holds the submitted values
+          // but, the original `$task` variable has also been updated
+          $post = $form->getData();
+
+          // ... perform some action, such as saving the task to the database
+          // for example, if Task is a Doctrine entity, save it!
+          $post->setDate(new \Datetime());
+          $em = $this->getDoctrine()->getManager();
+          $em->persist($post);
+          $em->flush();
+
+          return $this->redirectToRoute('posts');
+      }
+
+return $this->render('post/create.html.twig', array(
+  'form' => $form->createView(),
+));
     }
 
     /**
