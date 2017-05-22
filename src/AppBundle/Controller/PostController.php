@@ -27,7 +27,12 @@ class PostController extends Controller
         $postService = $this->container->get('app.postservice');
         $posts = $postService->getAll();
 
-        return $this->render('post/index.html.twig', ['posts' => $posts]);
+        /*
+          on creer la variable page pour pouvoir acceder a la page de post directement si on a pas de route typer posts/[nombre]
+        */
+        $page = 1;
+
+        return $this->render('post/index.html.twig', ['posts' => $posts, 'page' => $page, 'previous' => $page - 1, 'next' => $page + 1 ]);
     }
 
     /**
@@ -60,6 +65,10 @@ class PostController extends Controller
         $postService = $this->container->get('app.postservice');
         $posts = $postService->getPostsByPage($page);
 
-        return $this->render('post/index.html.twig', ['posts' => $posts, 'page' => $page, 'precedent' => $page - 1, 'suivant' => $page + 1]);
+        $previous = $page - 1;
+        $next = $page + 1;
+        if($previous <= 0)
+          $previous = 1;
+        return $this->render('post/index.html.twig', ['posts' => $posts, 'page' => $page, 'previous' => $previous, 'next' => $next]);
     }
 }
