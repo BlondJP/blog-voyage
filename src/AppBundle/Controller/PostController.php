@@ -3,9 +3,14 @@
 namespace AppBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 
 use AppBundle\Entity\Post;
 
@@ -13,6 +18,7 @@ class PostController extends Controller
 {
   /**
    * @Route("/", name="home")
+   * @Method({"GET"})
    */
   public function homeAction(Request $request)
   {
@@ -21,6 +27,7 @@ class PostController extends Controller
 
     /**
      * @Route("/posts", name="posts")
+     * @Method({"GET"})
      */
     public function indexAction(Request $request)
     {
@@ -31,7 +38,8 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/{postId}", name="postbyid")
+     * @Route("/post/{postId}", name="post_by_id")
+     * @Method({"GET"})
      */
     public function showAction($postId)
     {
@@ -42,18 +50,45 @@ class PostController extends Controller
     }
 
     /**
-     * @Route("/post/create", name="creation")
+     * @Route("/posts/create", name="creation")
      */
-    public function createRandomAction(Request $request)
+    public function createAction(Request $request)
     {
-        $postService = $this->container->get('app.postservice');
-        $postService->createARandomPost();
+        $post = new Post();
 
-        return $this->redirectToRoute('posts');
+        $form = $this->createFormBuilder($post)
+            ->add('title', TextType::class, ['label' => 'Titre de L\'article'])
+            ->add('content', TextType::class, ['label' => 'Contenu de l\'article'])
+            ->add('save', SubmitType::class, array('label' => 'Enregistrer le Post'))
+            ->getForm();
+
+        //dump($form->isSubmitted(), $form->isValid()); die;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+          //dump($form->isSubmitted(), $form->isValid()); die;
+
+
+            $post = $form->getData();
+            $post->setDate(new \Datetime());
+
+            $em = $this->getDoctrine()->getManager();
+            $em->persist($post);
+            $em->flush();
+
+            return $this->redirectToRoute('posts');
+        }
+
+        return $this->render('post/create-post.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     /**
-     * @Route("/posts/{page}", requirements={"page"="\d+"}, name="paginatedpost")
+     * @Route("/posts/page/{page}", requirements={"page"="\d+"}, name="paginated_post")
+     * @Method({"GET"})
      */
     public function getPostsAction(Request $request, $page)
     {

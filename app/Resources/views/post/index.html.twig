@@ -4,7 +4,7 @@
 
   {% for post in posts %}
 
-          <h2><a href="{{ path('postbyid', {'postId':post.id}) }}">{{ post.title|e }}</a></h2>
+          <h2><a href="{{ path('post_by_id', {'postId':post.id}) }}">{{ post.title|e }}</a></h2>
           <p>{{ post.content|e }}</p>
           <br>
 
