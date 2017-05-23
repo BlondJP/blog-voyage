@@ -9,8 +9,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+
 
 use AppBundle\Entity\Post;
 
@@ -47,7 +50,8 @@ class PostController extends Controller
 
         $form = $this->createFormBuilder($post)
             ->add('title', TextType::class, ['label' => 'Titre de L\'article'])
-            ->add('content', TextType::class, ['label' => 'Contenu de l\'article'])
+            ->add('content', TextareaType::class, ['label' => 'Contenu de l\'article'])
+            ->add('image', FileType::class, array('label' => 'Choisissez une image'))
             ->add('save', SubmitType::class, array('label' => 'Enregistrer le Post'))
             ->getForm();
 
@@ -56,7 +60,20 @@ class PostController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             $post = $form->getData();
+            $img = $post->getImage();
+
+            $fileName = md5(uniqid()).'.'.$img->guessExtension();
+
+            // Move the file to the directory where brochures are stored
+            $img->move(
+                $this->getParameter('images_directory'),
+                $fileName
+            );
+
+
             $post->setDate(new \Datetime());
+
+
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
