@@ -22,25 +22,8 @@ class PostController extends Controller
    */
   public function homeAction(Request $request)
   {
-      return $this->render('default/home.html.twig');
+      return $this->render('slider/home.html.twig');
   }
-
-    /**
-     * @Route("/posts", name="posts")
-     * @Method({"GET"})
-     */
-    public function indexAction(Request $request)
-    {
-        $postService = $this->container->get('app.postservice');
-        $posts = $postService->getAll();
-
-        /*
-          on creer la variable page pour pouvoir acceder a la page de post directement si on a pas de route typer posts/[nombre]
-        */
-        $page = 1;
-
-        return $this->render('post/index.html.twig', ['posts' => $posts, 'page' => $page, 'previous' => $page - 1, 'next' => $page + 1 ]);
-    }
 
     /**
      * @Route("/post/{postId}", name="post_by_id")
@@ -79,7 +62,7 @@ class PostController extends Controller
             $em->persist($post);
             $em->flush();
 
-            return $this->redirectToRoute('posts');
+            return $this->redirectToRoute('paginated_post', ['page' => 1]);
         }
 
         return $this->render('post/create-post.html.twig', array(
