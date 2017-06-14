@@ -19,14 +19,14 @@ use AppBundle\Entity\Post;
 
 class PostController extends Controller
 {
-  /**
-   * @Route("/", name="home")
-   * @Method({"GET"})
-   */
-  public function homeAction(Request $request)
-  {
-      return $this->render('slider/home.html.twig');
-  }
+    /**
+     * @Route("/", name="home")
+     * @Method({"GET"})
+     */
+    public function homeAction(Request $request)
+    {
+        return $this->render('slider/home.html.twig');
+    }
 
     /**
      * @Route("/post/{postId}", name="post_by_id")
@@ -70,10 +70,8 @@ class PostController extends Controller
                 $fileName
             );
 
-
             $post->setDate(new \Datetime());
-
-
+            $post->setImage($fileName);
 
             $em = $this->getDoctrine()->getManager();
             $em->persist($post);
@@ -94,6 +92,7 @@ class PostController extends Controller
      */
     public function getPostsAction(Request $request, $page)
     {
+        /* @var PostService $postService */
         $postService = $this->container->get('app.postservice');
         $posts = $postService->getPostsByPage($page);
 
